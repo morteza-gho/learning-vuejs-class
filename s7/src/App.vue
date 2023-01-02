@@ -1,10 +1,11 @@
 <script>
 import PostsList from './components/PostsList.vue';
+import User from './components/User.vue';
 // import UsersList from './components/UsersList.vue';
 
 	
 	export default {
-	components: {PostsList /* UsersList */ },
+	components: { PostsList /* UsersList */, User },
 
 		data() {
 			return {
@@ -48,7 +49,11 @@ import PostsList from './components/PostsList.vue';
 							family: 'Mohseni'
 						},
 					}
-				]
+				],
+				userData: {
+					name: 'Mortrza',
+					family: 'QorbanAlizade'
+				}
 			};
 		},
 	}
@@ -58,6 +63,16 @@ import PostsList from './components/PostsList.vue';
 	<!-- <users-list :items="users"></users-list>
 	<hr />
 	<users-list :items="customers"></users-list> -->
+
+	<User :title="'Show User Data'" :user="userData" :textColor="'red'" />
+	<hr />
+
+	<User :user="userData" :textColor="'green'" />
+	<hr />
+
+	<User />
+	<hr />
+
 
 	<posts-list :posts="postItems"></posts-list>
 
