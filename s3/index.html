@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vuejs by CDN</title>
+</head>
+<body>
+
+  <div id="app">
+    
+    <div v-bind:id="userId">
+      messge: {{message}}: <input type="text" v-model="userId">
+    </div> 
+    <p v-html="richText"></p>
+    <div>
+      <button :disabled="isDisabled">Disabled Button</button>
+    </div>
+    <br>
+    <div>
+      Count: {{count}}
+      <button type="button" v-on:click="count++">+</button>
+      <button type="button" @click="count--">-</button>
+    </div>
+  
+  </div>
+
+  <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    // const createApp = Vue.createApp;
+    const {createApp} = Vue; // destructuring ES6
+    
+    createApp({
+      data() {
+        return {
+          message: 'Hello Vuejs'
+        }
+      }
+    }).mount('#app')
+
+  </script> -->
+
+  <script type="module">
+
+    import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+    createApp({
+      data() {
+        return {
+          message: 'Hello Vuejs',
+          richText: 'This Is A <b>Bold</b> Text.',
+          userId: 10,
+          isDisabled: true,
+          count: 0
+        }
+      }
+    }).mount('#app')
+
+  </script>
+
+</body>
+</html>
