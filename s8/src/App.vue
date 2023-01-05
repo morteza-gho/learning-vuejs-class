@@ -2,6 +2,7 @@
 import CustomButton from './components/CustomButton.vue';
 import ChildComponent from './components/ChildComponent.vue';
 import ShowLoader from './components/ShowLoader.vue';
+import Home from './components/Home.vue';
 
 
 export default {
@@ -12,7 +13,7 @@ export default {
 			isShowLoading: false
 		};
 	},
-	components: { CustomButton, ChildComponent, ShowLoader },
+	components: { CustomButton, ChildComponent, ShowLoader, Home },
 	methods: {
 		onIncreaseCounter(data) {
 			console.log(data)
@@ -48,15 +49,32 @@ export default {
 	<div class="loading" v-if="isShowLoading">Loading, please wait...</div>
 	<ShowLoader :is-loading="isShowLoading" @show-parent-loading="onShowParentLoading"></ShowLoader>
 
+	<br />
+	<hr />
+	<br />
+
+	<Home>
+		<template v-slot:text>
+			<p>this text is in App.vue</p>
+		</template>
+		<template v-slot:list>	
+			<ul>
+				<li>item 1</li>
+				<li>item 2</li>
+				<li>item 3</li>
+			</ul>
+		</template>
+	</Home>
+
 </template>
 
 <style>
-	.loading {
-		background: lightblue;
-		border: 1px solid blue;
-		padding: 5px;
-		font-size: 16px;
-		width: 20%;
-		margin-bottom: 10px;
-	}
+.loading {
+	background: lightblue;
+	border: 1px solid blue;
+	padding: 5px;
+	font-size: 16px;
+	width: 20%;
+	margin-bottom: 10px;
+}
 </style>
