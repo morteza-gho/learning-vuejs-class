@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise</title>
+</head>
+
+<body>
+
+
+  <script>
+    /* console.log('Hi')
+    setTimeout(() => {
+      console.log('Morteza')
+    }, 3000);
+    console.log('Goodby') */
+
+    console.log('Hi')
+    const HelloBy = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const status = 500;
+        if (status == 200) {
+          // console.log('Morteza');
+          resolve({name: 'Morteza'});
+        } else {
+          reject('Error Acoured');
+        }
+
+      }, 3000);
+    });
+    /* HelloBy.then(function() {
+      console.log('Goodby')
+    }); */
+    HelloBy.then((data) => {
+      console.log(data.name)
+      console.log('Goodby')
+    }, (err) => {
+      console.error(err)
+    })
+  </script>
+</body>
+
+
+</html>
