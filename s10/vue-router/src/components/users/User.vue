@@ -1,5 +1,6 @@
 <template>
-   <h1>Show User: {{userId}}</h1>
+   <h1>{{user.name}}</h1>
+   <h2>{{user.email}}</h2>
    <router-link :to="{name: 'userProfile', params: {id: userId}}" class="user-link">Profile</router-link>
    <router-link :to="{name: 'userImages', params: {id: userId}}" class="user-link">Images</router-link>
    <router-link :to="{name: 'userContactInfo', params: {id: userId}}" class="user-link">Contact</router-link>
@@ -11,16 +12,26 @@
 </template>
 
 <script>
+   import axios from 'axios';
+
    export default {
       name: "user",
       data() {
          return {
-            userId: ''
+            userId: '',
+            user: {}
          }
       },
       created() {
          // console.log(this.$route.params);
-         this.userId = this.$route.params.id
+         this.userId = this.$route.params.id;
+         axios.get(`https://jsonplaceholder.typicode.com/users/${this.userId}`).then(res => {
+            if (res.status === 200) {
+               this.user = res.data;
+            }
+         }, (err) => {
+            console.log(err.response);
+         })
       },
       methods: {
          back() {
