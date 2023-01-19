@@ -13,7 +13,7 @@
       <thead>
       <tr>
          <th class="text-center">Row</th>
-         <th>Name</th>
+         <th>Name - Family</th>
          <th>Username</th>
          <th>Email</th>
          <th>Phone</th>
@@ -23,7 +23,9 @@
       <tbody v-if="users.length">
       <tr v-for="(user, index) in users" :key="user.id">
          <td class="text-center">{{index + 1}}</td>
-         <td>{{user.name}}</td>
+         <td>
+            <router-link class="text-decoration-none text-black" :to="{name: 'showUser', params: {id: user.id}}">{{user.full_name}}</router-link>
+         </td>
          <td>{{user.username}}</td>
          <td>{{user.email}}</td>
          <td>{{user.phone}}</td>
@@ -90,9 +92,10 @@
                   this.isDisabled = false;
                   const userIndex = this.users.findIndex(x => x.id === userId);
                   this.users.splice(userIndex, 1);
+                  this.$toast.success('User Deleted Successfully')
                }, (err) => {
                   this.isDisabled = false;
-                  console.log(err.message);
+                  this.$toast.error(err.message);
                })
             }
          }
