@@ -7,7 +7,7 @@
       </router-link>
    </div>
 
-   <div class="col-md-6 col-12">
+   <div class="col-md-6 col-12 mb-5">
       <form @submit.prevent="submit">
          <div class="row">
             <div class="col-md-6">
@@ -45,11 +45,24 @@
                       placeholder="Enter your address..."></textarea>
          </div>
 
-         <button type="submit" class="btn btn-success" :disabled="isDisabled">
-            <i class="bi bi-check-lg me-2" v-if="!isDisabled"></i>
-            <span v-else class="spinner-border spinner-border-sm me-2"></span>
-            Register
-         </button>
+         <form-button
+               text="Register"
+               button-type="submit"
+               classes="btn-success"
+               icon="bi-check2"
+               :is-disabled="isDisabled"
+               action-type="submit"
+               @button-callback="onButtonCallback">
+         </form-button>
+
+         <form-button
+               text="Reset Form"
+               classes="btn-outline-secondary ms-2"
+               icon="bi-x-lg"
+               :is-disabled="isDisabled"
+               action-type="reset"
+               @button-callback="onButtonCallback">
+         </form-button>
 
       </form>
    </div>
@@ -60,9 +73,11 @@
    import axios from "axios";
    import {BASE_URL} from "../../constants";
    import {createGUID} from "../../functions";
+   import FormButton from "../global/FormButton.vue";
 
    export default {
       name: "NewUser",
+      components: {FormButton},
       data() {
          return {
             isDisabled: false,
@@ -82,6 +97,19 @@
                this.isDisabled = false;
                this.$toast.error(err.message)
             })
+         },
+         onButtonCallback({type}) {
+            switch (type) {
+               case 'submit': {
+                  this.submit()
+               }
+                  break
+               case 'reset': {
+                  this.createModel = {}
+               }
+                  break;
+            }
+
          }
       }
    }
