@@ -8,41 +8,47 @@
    </div>
 
    <div class="col-md-6 col-12 mb-5">
-      <form @submit.prevent="submit">
+      <Form @submit="onSubmit" :validation-schema="userSchema">
          <div class="row">
             <div class="col-md-6">
                <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="username" v-model="createModel.username"
-                         placeholder="Enter your username...">
+                  <label class="form-label">Username</label>
+                  <Field class="form-control" name="username" placeholder="Enter your username..."/>
+                  <ErrorMessage name="username" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6">
                <div class="mb-3">
-                  <label for="name" class="form-label">Name - Family</label>
-                  <input type="text" class="form-control" id="name" v-model="createModel.full_name"
-                         placeholder="Enter your name and family...">
+                  <label class="form-label">Name - Family</label>
+                  <Field class="form-control" name="full_name" placeholder="Enter your name and family..."/>
+                  <ErrorMessage name="full_name" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6">
                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" v-model="createModel.email"
-                         placeholder="Enter your email...">
+                  <label class="form-label">Email</label>
+                  <!-- :rules="validateEmail" -->
+                  <Field class="form-control" name="email" type="email" placeholder="Enter your email..."/>
+                  <ErrorMessage name="email" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6">
                <div class="mb-3">
-                  <label for="phone" class="form-label">Phone</label>
-                  <input type="text" class="form-control" id="phone" v-model="createModel.phone"
-                         placeholder="Enter your phone...">
+                  <label class="form-label">Phone</label>
+                  <Field class="form-control" name="phone" placeholder="Enter your phone..."/>
+                  <ErrorMessage name="phone" class="text-danger"/>
                </div>
             </div>
          </div>
          <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <textarea rows="3" class="form-control" id="address" v-model="createModel.address"
-                      placeholder="Enter your address..."></textarea>
+            <label class="form-label">Website</label>
+            <Field class="form-control" name="website" placeholder="Enter your website..."/>
+            <ErrorMessage name="website" class="text-danger"/>
+         </div>
+         <div class="mb-3">
+            <label class="form-label">Address</label>
+            <Field class="form-control" name="address" placeholder="Enter your address..."/>
+            <ErrorMessage name="address" class="text-danger"/>
          </div>
 
          <form-button
@@ -55,16 +61,16 @@
                @button-callback="onButtonCallback">
          </form-button>
 
-         <form-button
+         <!--<form-button
                text="Reset Form"
                classes="btn-outline-secondary ms-2"
                icon="bi-x-lg"
                :is-disabled="isDisabled"
                action-type="reset"
                @button-callback="onButtonCallback">
-         </form-button>
+         </form-button>-->
 
-      </form>
+      </Form>
    </div>
 
 </template>
@@ -74,34 +80,40 @@
    import {BASE_URL} from "../../constants";
    import {createGUID} from "../../functions";
    import FormButton from "../global/FormButton.vue";
+   import {Form, Field, ErrorMessage} from "vee-validate"
+   import {userSchema} from "./schemas/schemas";
 
    export default {
       name: "NewUser",
-      components: {FormButton},
+      components: {FormButton, Form, Field, ErrorMessage},
       data() {
          return {
             isDisabled: false,
-            createModel: {}
+            userSchema
+            // createModel: {}
          }
       },
       methods: {
-         submit() {
-            this.isDisabled = true;
-            const dataModel = this.createModel;
-            Object.assign(dataModel, {id: createGUID()})
-            axios.post(`${BASE_URL}/users`, dataModel).then(() => {
-               this.isDisabled = false;
-               this.$toast.success('User Added Successfully')
-               this.$router.push("/users");
-            }, (err) => {
-               this.isDisabled = false;
-               this.$toast.error(err.message)
-            })
+         onSubmit(values) {
+            if (values) {
+               this.isDisabled = true;
+               const dataModel = values;
+               Object.assign(dataModel, {id: createGUID()});
+               console.log(dataModel);
+               axios.post(`${BASE_URL}/users`, dataModel).then(() => {
+                  this.isDisabled = false;
+                  this.$toast.success('User Added Successfully')
+                  this.$router.push("/users");
+               }, (err) => {
+                  this.isDisabled = false;
+                  this.$toast.error(err.message)
+               })
+            }
          },
          onButtonCallback({type}) {
             switch (type) {
                case 'submit': {
-                  this.submit()
+                  this.onSubmit()
                }
                   break
                case 'reset': {
@@ -109,8 +121,20 @@
                }
                   break;
             }
-
-         }
+         },
+         /*validateEmail(value) {
+            // if the field is empty
+            if (!value) {
+               return 'This field is required';
+            }
+            // if the field is not a valid email
+            const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+            if (!regex.test(value)) {
+               return 'This field must be a valid email';
+            }
+            // All is good
+            return true;
+         },*/
       }
    }
 </script>
