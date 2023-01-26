@@ -12,30 +12,32 @@
    </div>
 </template>
 
-<script>
-   export default {
-      name: "TableActions",
-      props: {
-         id: String || Number
-      },
-      emits: ['table-action-callback'],
+<script setup>
 
-      /*setup(props, context) {
-         const onButtonsClick = (type) => {
-            context.emit('table-action-callback', {id: props.id, type})
-         }
+const props = defineProps({
+   id: String || Number
+});
+const emits = defineEmits(['table-action-callback'])
 
-         return {onButtonsClick}
-      }*/
+const onButtonsClick = (type) => {
+   emits('table-action-callback', { id: props.id, type })
+}
 
-      setup({id}, {emit}) {
-         const onButtonsClick = (type) => {
-            emit('table-action-callback', {id: id, type})
-         }
-         return {onButtonsClick}
+/* export default {
+   name: "TableActions",
+   props: {
+      id: String || Number
+   },
+   emits: ['table-action-callback'],
+
+   /*setup(props, context) {
+      const onButtonsClick = (type) => {
+         context.emit('table-action-callback', {id: props.id, type})
       }
 
-   }
+      return {onButtonsClick}
+   }*/
+
 </script>
 
 <style scoped>

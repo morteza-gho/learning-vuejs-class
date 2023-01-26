@@ -46,7 +46,7 @@
    </table>
 </template>
 
-<script>
+<script setup>
    import axios from "axios";
    import {BASE_URL} from "../../constants";
    import MainLoading from "../global/MainLoading.vue";
@@ -56,7 +56,60 @@
    import {useToast} from "vue-toast-notification";
    import {useRouter} from "vue-router";
 
-   export default {
+   const isLoading = ref(false);
+   const isDisabled = ref(false);
+   const users = ref([]);
+   const $toast = useToast();
+   const router = useRouter();
+
+   onMounted(() => {
+      getUsers();
+   })
+
+   const getUsers = () => {
+      isLoading.value = true;
+      axios.get(`${BASE_URL}/users`).then(res => {
+         isLoading.value = false;
+         users.value = res.data
+      }, (err) => {
+         isLoading.value = false;
+      })
+   };
+
+   const deleteUser = (userId) => {
+      if (window.confirm('Are you sure to delete this user')) {
+         isDisabled.value = true;
+         axios.delete(`${BASE_URL}/users/${userId}`).then(() => {
+            isDisabled.value = false;
+            const userIndex = users.value.findIndex(x => x.id === userId);
+            users.value.splice(userIndex, 1);
+            $toast.success('User Deleted Successfully')
+         }, (err) => {
+            isDisabled.value = false;
+            $toast.error(err.message);
+         })
+      }
+   };
+
+   const onTableActionCallback = (data) => {
+      switch (data.type) {
+         case 'delete': {
+            deleteUser(data.id)
+         }
+            break;
+         case 'edit': {
+            router.push({name: 'editUser', params: {id: data.id}})
+         }
+            break;
+         case 'show': {
+            router.push({name: 'showUser', params: {id: data.id}})
+         }
+            break;
+      }
+   }
+
+
+   /*export default {
       name: "UsersList",
       components: {TableActions, NotFoundItems, MainLoading},
 
@@ -117,7 +170,7 @@
 
       } // setup
 
-   }
+   }*/
 </script>
 
 <style scoped>
