@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "username": "mojtaba.fallah",
+      "full_name": "Mojtaba Fallah",
+      "email": "mojtaba.fallah1373@gmail.com",
+      "phone": "09132221133",
+      "address": "Qom :)",
+      "id": "d7f763ea-bacd-48ec-b9ca-0b2227ed54b7"
+    },
+    {
+      "username": "alichenini",
+      "full_name": "Ali Chenini",
+      "email": "ali.chenini@gmail.com",
+      "address": "Kashan",
+      "phone": "09135559988",
+      "id": "b8e7a1fa-e98c-49b3-b4dd-6acb68bfa4d5"
+    },
+    {
+      "username": "f.fallah",
+      "full_name": "Fateme Fallah",
+      "email": "fatemeh.fallah@gmail.com",
+      "phone": "09132224455",
+      "address": "Kashan, Rahati",
+      "id": "fdff058e-4b1a-4342-94b8-fa820d3a5d6c"
+    },
+    {
+      "username": "asdcfas",
+      "full_name": "saDVsadvsd",
+      "email": "gho.morteza@gmail.com",
+      "phone": "09135559988",
+      "website": "http://qorbanalizade.ir/",
+      "address": "AS",
+      "id": "f97cc645-d348-4ac2-b9af-d1b6c83eb196"
+    }
+  ]
+}
