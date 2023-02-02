@@ -11,6 +11,10 @@ export default {
             // return this.$store.state.todos;
             return this.$store.getters.getAllTodos;
         },
+        doingTodos() {
+            // return this.$store.state.todos.filter(todo => todo.isDone);
+            return this.$store.getters.doingTodos;
+        },
         doneTodos() {
             // return this.$store.state.todos.filter(todo => todo.isDone);
             return this.$store.getters.doneTodos;
@@ -25,6 +29,10 @@ export default {
         increase() {
             // tis is for actions axample
             this.$store.dispatch('increase', 2)
+        },
+        changeTodoStatus(id) {
+            console.log(id)
+            this.$store.dispatch('changeTodoStatus', id)
         }
     }
 
@@ -44,7 +52,16 @@ export default {
             <div v-for="(todo, index) in todos" :key="todo.id" :class="`todo-item ${todo.isDone ? 'done' : ''}`">
                 <span>{{ index + 1 }}</span>
                 <span>{{ todo.title }}</span>
-                <span class="status"></span>
+                <span class="status" @click="changeTodoStatus(todo.id)"></span>
+            </div>
+        </div>
+
+        <div class="todos">
+            <h2>Doing Todos</h2>
+            <div v-for="(todo, index) in doingTodos" :key="todo.id" :class="`todo-item ${todo.isDone ? 'done' : ''}`">
+                <span>{{ index + 1 }}</span>
+                <span>{{ todo.title }}</span>
+                <span class="status" @click="changeTodoStatus(todo.id)"></span>
             </div>
         </div>
 
@@ -53,7 +70,7 @@ export default {
             <div v-for="(todo, index) in doneTodos" :key="todo.id" :class="`todo-item ${todo.isDone ? 'done' : ''}`">
                 <span>{{ index + 1 }}</span>
                 <span>{{ todo.title }}</span>
-                <span class="status"></span>
+                <span class="status" @click="changeTodoStatus(todo.id)"></span>
             </div>
         </div>
     </div>

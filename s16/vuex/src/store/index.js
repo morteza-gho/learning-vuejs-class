@@ -16,6 +16,9 @@ const store = createStore({
     getAllTodos(state) {
       return state.todos;
     },
+    doingTodos(state) {
+      return state.todos.filter(todo => !todo.isDone);
+    },
     doneTodos(state) {
       return state.todos.filter(todo => todo.isDone);
     }
@@ -27,12 +30,19 @@ const store = createStore({
     } */
     increase(state, number) {
       state.count += number
-    } 
+    },
+    changeTodoStatus(state, todoId) {
+      const currentTodo = state.todos.find(todo => todo.id === todoId);
+      currentTodo.isDone = !currentTodo.isDone;
+    }
   },
 
   actions: {
-    increase({commit}, number) {
+    increase({ commit }, number) {
       commit('increase', number);
+    },
+    changeTodoStatus({commit}, id) {
+      commit('changeTodoStatus', id);
     }
   }
 
