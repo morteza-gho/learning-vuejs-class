@@ -21,6 +21,10 @@ const store = createStore({
       state.tasks = items;
     },
 
+    newTask(state, newItem) {
+      state.tasks.push(newItem);
+    },
+
     updateTask(state, updatedItem) {
       const index = state.tasks.findIndex(x => x.id === updatedItem.id);
       state.tasks[index] = updatedItem;
@@ -41,6 +45,17 @@ const store = createStore({
         const { status, data } = await axios.get(`${BASE_URL}/tasks`);
         if (status === 200) {
           commit('setTasks', data);
+        }
+      } catch (err) {
+        toast.error(err.message);
+      }
+    },
+
+    async newTask({ commit }, item) {
+      try {
+        const { status, data } = await axios.post(`${BASE_URL}/tasks`, item );
+        if (status === 201) {
+          commit('newTask', data);
         }
       } catch (err) {
         toast.error(err.message);
